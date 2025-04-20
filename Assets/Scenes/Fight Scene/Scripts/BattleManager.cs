@@ -32,7 +32,7 @@ public class BattleManager : MonoBehaviour
                     unit.energy += unit.data.energyGain;
                     if (unit.energy >= 100)
                     {
-                        unit.energy -= 100;
+                        unit.TakeEnergy(100);
                         turnQueue.Enqueue(unit);
                     }
                 }
@@ -50,19 +50,41 @@ public class BattleManager : MonoBehaviour
 
         if (unit.isFriendly)
         {
-            // Show UI, wait for player input
+            // Player unit — show UI and wait for input
             BattleUI.Instance.ShowActions(unit);
             yield return new WaitUntil(() => BattleUI.Instance.actionChosen);
         }
         else
         {
-            // Simple AI (random ability & target)
-            var ability = unit.data.abilities[Random.Range(0, 4)];
-            var targets = friendlyUnits.Where(u => u.IsAlive()).ToList();
-            var target = targets[Random.Range(0, targets.Count)];
+            // Defensive check for empty or null ability list
+            if (unit.data.abilities == null || unit.data.abilities.Length == 0)
+            {
+                Debug.LogWarning($"{unit.data.unitName} has no abilities!");
+                yield return new WaitForSeconds(0.4f);
+                yield break;
+            }
 
-            ability.Activate(unit, target);
-            yield return new WaitForSeconds(1f);
+            // Choose a truly random ability from this unit's list
+            int randomIndex = Random.Range(0, unit.data.abilities.Length);
+            var ability = unit.data.abilities[randomIndex];
+
+            // Choose valid targets based on ability type
+            List<Unit> potentialTargets = ability.canTargetFriendly
+                ? enemyUnits.Where(u => u.IsAlive()).ToList()
+                : friendlyUnits.Where(u => u.IsAlive()).ToList();
+
+            if (potentialTargets.Count > 0)
+            {
+                var target = potentialTargets[Random.Range(0, potentialTargets.Count)];
+                ability.Activate(unit, target);
+            }
+            else
+            {
+                Debug.LogWarning($"{unit.data.unitName} found no valid targets for {ability.abilityName}!");
+            }
+
+            yield return new WaitForSeconds(0.4f);
         }
     }
+
 }

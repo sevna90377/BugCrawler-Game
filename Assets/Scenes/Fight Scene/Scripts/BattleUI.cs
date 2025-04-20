@@ -15,7 +15,7 @@ public class BattleUI : MonoBehaviour
 
     public TextMeshProUGUI currentUnitNameText;
 
-    private Unit currentUnit;
+    public Unit currentUnit;
     public bool actionChosen = false;
     public Ability currentAbility;
 
@@ -48,7 +48,6 @@ public class BattleUI : MonoBehaviour
 
     void SelectAbility(int index)
     {
-        Debug.Log("Selected ability index: " + index);
         currentAbility = currentUnit.data.abilities[index];
         StartCoroutine(TargetSelection(currentAbility));
     }
@@ -58,8 +57,6 @@ public class BattleUI : MonoBehaviour
         HideActions();
         waitingForTarget = true;
         selectedTarget = null;
-
-        Debug.Log("Choose a target...");
 
         yield return new WaitUntil(() => selectedTarget != null);
 
