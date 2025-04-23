@@ -154,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hexSize: 0.5
   tilemapPrefabs:
+  - {fileID: 910787100182050900, guid: f55b2bd571d50694783fd088281cc364, type: 3}
   - {fileID: 5176129950710736211, guid: 9d4b47c126cdf93489fa178432243d9d, type: 3}
   - {fileID: 910787100182050900, guid: 1c11da89ed696f243a101874076dcf8f, type: 3}
   currentMap: {fileID: 0}
