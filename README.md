@@ -1,6 +1,6 @@
 # BugCrawler
 
-In Progress &nbsp; ![](https://geps.dev/progress/16?dangerColor=800000&warningColor=ff9900&successColor=006600)
+In Progress &nbsp; ![](https://geps.dev/progress/25?dangerColor=800000&warningColor=ff9900&successColor=006600)
 
 
 ### Highlights --
