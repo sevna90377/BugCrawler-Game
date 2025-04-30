@@ -8,6 +8,6 @@ public class SingleTargetDamage : Ability
     public override void Activate(Unit user, Unit target)
     {
         target.TakeDamage(damageAmount);
-        Debug.Log($"{user.data.unitName} casts {abilityName} on {target.data.unitName}, dealing {damageAmount} damage!");
+        Debug.Log($"{user.unitName} casts {abilityName} on {target.unitName}, dealing {damageAmount} damage!");
     }
 }

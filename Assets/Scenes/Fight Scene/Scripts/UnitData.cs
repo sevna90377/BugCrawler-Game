@@ -4,8 +4,18 @@ using UnityEngine;
 public class UnitData : ScriptableObject
 {
     public string unitName = "NewUnit";
-    public int maxHP;
+
+    public int tissue;
+    public int speed;
+    public int strength;
+    public int power;
+    public int aggression;
+    public int preservation;
+
+    public bool isFriendly;
+    public bool isFrontlane;
+    public bool isBacklane;
+
     public Sprite unitSprite;
-    public int energyGain;
     public Ability[] abilities;
 }

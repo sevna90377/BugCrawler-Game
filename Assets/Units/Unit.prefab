@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -3}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1163538236601988125}
@@ -49,9 +49,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: c74474eba386b4f4c859b6e998a69fec, type: 2}
   currentHP: 0
-  energy: 0
+  currentEnergy: 0
   isFriendly: 0
   bars: {fileID: 3051506790416763303}
+  unitCanvas: {fileID: 4887609294218867810}
 --- !u!61 &8142016247084701680
 BoxCollider2D:
   m_ObjectHideFlags: 0

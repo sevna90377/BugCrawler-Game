@@ -8,9 +8,9 @@ public class SingleTargetHeal : Ability
     public override void Activate(Unit user, Unit target)
     {
         int trueHeal;
-        if (target.currentHP + healAmount > target.data.maxHP)
+        if (target.currentHP + healAmount > target.maxHP)
         {
-            trueHeal = target.data.maxHP - target.currentHP;
+            trueHeal = target.maxHP - target.currentHP;
             target.TakeDamage(-trueHeal);
         }
         else
@@ -19,6 +19,6 @@ public class SingleTargetHeal : Ability
             target.TakeDamage(-trueHeal);
         }
 
-        Debug.Log($"{user.data.unitName} casts {abilityName} on {target.data.unitName}, healing {trueHeal} HP!");
+        Debug.Log($"{user.unitName} casts {abilityName} on {target.unitName}, healing {trueHeal} HP!");
     }
 }

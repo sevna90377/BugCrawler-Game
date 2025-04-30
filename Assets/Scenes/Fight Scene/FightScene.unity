@@ -784,10 +784,11 @@ MonoBehaviour:
   - {fileID: 1749321923}
   - {fileID: 1849719972}
   waitingForTarget: 0
-  currentUnitNameText: {fileID: 1235106806}
   currentUnit: {fileID: 0}
   actionChosen: 0
   currentAbility: {fileID: 0}
+  chosenTarget: {fileID: 0}
+  chosenAbility: {fileID: 0}
 --- !u!4 &1030231339
 Transform:
   m_ObjectHideFlags: 0
@@ -1103,28 +1104,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3836c531174f5e640a2e2ca7f8e47384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitPrefab: {fileID: 2869984730512597196, guid: ec6d66c5612e58f4297e16ed32fe9b29, type: 3}
-  friendlySpawns:
+  friendlyFrontSpawns:
   - {fileID: 849239368}
   - {fileID: 398548170}
+  friendlyBackSpawns:
   - {fileID: 1730652409}
   - {fileID: 679276753}
-  enemySpawns:
+  enemyFrontSpawns:
   - {fileID: 659712648}
   - {fileID: 1769108583}
+  enemyBackSpawns:
   - {fileID: 473021395}
   - {fileID: 1003482393}
-  friendlyUnitData:
-  - {fileID: 11400000, guid: 565f6a3e0af5f3c46953bae594bd40bc, type: 2}
-  - {fileID: 11400000, guid: 565f6a3e0af5f3c46953bae594bd40bc, type: 2}
-  - {fileID: 11400000, guid: 565f6a3e0af5f3c46953bae594bd40bc, type: 2}
-  - {fileID: 11400000, guid: 565f6a3e0af5f3c46953bae594bd40bc, type: 2}
-  enemyUnitData:
-  - {fileID: 11400000, guid: bf22aa0d9280cbd4882b999b98ea491f, type: 2}
-  - {fileID: 11400000, guid: bf22aa0d9280cbd4882b999b98ea491f, type: 2}
-  - {fileID: 11400000, guid: bf22aa0d9280cbd4882b999b98ea491f, type: 2}
-  - {fileID: 11400000, guid: bf22aa0d9280cbd4882b999b98ea491f, type: 2}
   battleManager: {fileID: 1879732957}
+  unitPrefab: {fileID: -2565430048128121818, guid: ec6d66c5612e58f4297e16ed32fe9b29, type: 3}
+  friendlyFrontlane:
+  - {fileID: 11400000, guid: 38c9977a47a486345a58a2d3bf396f8b, type: 2}
+  - {fileID: 11400000, guid: 38c9977a47a486345a58a2d3bf396f8b, type: 2}
+  friendlyBacklane:
+  - {fileID: 11400000, guid: 64ea4c436506e7d4483d0820afd681c2, type: 2}
+  - {fileID: 11400000, guid: 64ea4c436506e7d4483d0820afd681c2, type: 2}
+  enemyFrontlane:
+  - {fileID: 11400000, guid: bf22aa0d9280cbd4882b999b98ea491f, type: 2}
+  - {fileID: 11400000, guid: bf22aa0d9280cbd4882b999b98ea491f, type: 2}
+  enemyBacklane:
+  - {fileID: 11400000, guid: 3b60edc1344061c4d994f4e627ba1bf3, type: 2}
+  - {fileID: 11400000, guid: 3b60edc1344061c4d994f4e627ba1bf3, type: 2}
 --- !u!4 &1336157866
 Transform:
   m_ObjectHideFlags: 0

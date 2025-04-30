@@ -10,12 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85854190c9f2877489fb9bed7fedea3d, type: 3}
-  m_Name: FriendlyUnitData
+  m_Name: FriendlyFront
   m_EditorClassIdentifier: 
   unitName: FriendlyUnit
-  maxHP: 20
+  tissue: 20
+  speed: 5
+  strength: 0
+  power: 0
+  aggression: 0
+  preservation: 0
+  isFriendly: 1
+  isFrontlane: 1
+  isBacklane: 0
   unitSprite: {fileID: 21300000, guid: cb7898e5a2178ba41b7c075eccc352a4, type: 3}
-  energyGain: 50
   abilities:
   - {fileID: 11400000, guid: ffa642963d1c87042ad1acd683051676, type: 2}
   - {fileID: 11400000, guid: ffa642963d1c87042ad1acd683051676, type: 2}
