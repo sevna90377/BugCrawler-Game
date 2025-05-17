@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class BattleManager : MonoBehaviour
@@ -14,6 +15,7 @@ public class BattleManager : MonoBehaviour
     private Unit currentUnit;
 
     public static BattleManager Instance;
+    private int battleStatus = 0;
 
     private void Awake()
     {
@@ -79,6 +81,14 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator HandleTurn(Unit unit)
     {
+
+        battleStatus = CheckEndConditions();
+
+        if (battleStatus != 0)
+        {
+            EndBattle();
+        }
+
         if (!unit.IsAlive()) yield break;
 
         foreach (var u in allUnits)
@@ -178,5 +188,38 @@ public class BattleManager : MonoBehaviour
     public List<Unit> GetHighlightableTargets(Unit caster, Ability ability)
     {
         return GetValidTargetsForAbility(caster, ability);
+    }
+
+
+    // battle end status - 0 not over, 1 win, 2 defeat
+    int CheckEndConditions()
+    {
+
+        bool allFriendlyUnitsDead = friendlyUnits.All(unit => !unit.IsAlive());
+        bool allEnemyUnitsDead = enemyUnits.All(unit => !unit.IsAlive());
+
+        if (allFriendlyUnitsDead)
+        {
+            return 2;
+        }else if (allEnemyUnitsDead)
+        {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    void EndBattle()
+    {
+        BattleUI.Instance.battleResultsPanel.SetActive(true);
+
+        if (battleStatus == 1)
+        {
+            BattleUI.Instance.endText.text = "Victory!";
+        } else
+        {
+            BattleUI.Instance.endText.text = "Defeat!";
+        }
+            
     }
 }

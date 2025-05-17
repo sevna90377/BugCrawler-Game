@@ -6,18 +6,42 @@ using TMPro;
 
 public class BattleUI : MonoBehaviour
 {
+
     public static BattleUI Instance;
+    public static List<Unit> selectedTargets = new List<Unit>();
+
+    [Header("Main Battle UI")]
     public GameObject actionPanel;
     public Button[] abilityButtons;
-    public static List<Unit> selectedTargets = new List<Unit>();
+
+    [Header("Battle Results UI")]
+    public GameObject battleResultsPanel;
+    public TextMeshProUGUI endText;
+    public Button continueButton;
+
+    [Header("Start Battle UI")]
+    public GameObject battleStartPanel;
+
+    [Header("Fight Elements (Don't touch)")]
     public bool waitingForTarget = false;
-    public Unit currentUnit;
     public bool actionChosen = false;
+    public Unit currentUnit;
     public Ability currentAbility;
     public Unit chosenTarget;
     public Ability chosenAbility;
 
-    private void Awake() => Instance = this;
+    private void Awake()
+    {
+        Instance = this;
+        HideActions();
+    }
+
+    private void Start()
+    {
+        battleResultsPanel.SetActive(false);
+        HideActions();
+        continueButton.onClick.AddListener(onContinue);
+    }
 
     public void ShowActions(Unit unit)
     {
@@ -110,5 +134,10 @@ public class BattleUI : MonoBehaviour
 
         waitingForTarget = false;
         actionChosen = true;
+    }
+
+    void onContinue()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("WorldScene");
     }
 }
