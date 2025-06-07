@@ -3,13 +3,13 @@ using UnityEngine.Tilemaps;
 
 public class MovementScript : MonoBehaviour
 {
-    Tilemap tilemap;
+    public Tilemap tilemap;
     public float hexSize = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        SwitchMap();
+        //SwitchMap();
         transform.position = tilemap.CellToWorld(new Vector3Int(0,0,0));
     }
 
