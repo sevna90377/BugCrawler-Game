@@ -61,7 +61,6 @@ MonoBehaviour:
   tilemap: {fileID: 0}
   aaa:
   - {fileID: 11400000, guid: eb8ad08844e179c4bab41e33a3e88a87, type: 2}
-  - {fileID: 11400000, guid: c9b6a4216ea93064881bbd5ff3e12b2c, type: 2}
 --- !u!1 &3658982302402135559
 GameObject:
   m_ObjectHideFlags: 0
