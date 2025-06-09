@@ -255,12 +255,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec7cbc74aafdbc2419d7017ba0b679d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidth: 15
-  mapHeight: 10
+  mapWidth: 50
+  mapHeight: 25
   tilemap: {fileID: 1295131221}
   sampleTilePrefab: {fileID: 11400000, guid: c9b6a4216ea93064881bbd5ff3e12b2c, type: 2}
   roomCount: 3
-  roomSize: {x: 4, y: 4}
+  roomSize: {x: 7, y: 5}
+  extraTilesPerRoom: 6
 --- !u!4 &900729780
 Transform:
   m_ObjectHideFlags: 0
