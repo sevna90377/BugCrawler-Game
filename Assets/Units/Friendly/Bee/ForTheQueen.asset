@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: For The Queen!
   icon: {fileID: 0}
-  canTarget: 0
+  canTarget: 1
   strengthScaling: 5
   powerScaling: 0
   aggressionScaling: 0

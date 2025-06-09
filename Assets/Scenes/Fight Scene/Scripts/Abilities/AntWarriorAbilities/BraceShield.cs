@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BraceShield : MonoBehaviour
+[CreateAssetMenu(menuName = "Abilities/AntWarriorAbilities/BraceShield")]
+public class BraceShield : Ability
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void Activate(Unit caster, Unit target)
     {
-        
-    }
+        int healAmount = ApplyScaling(caster, caster.currentPower, powerScaling);
+        target.Heal(healAmount);
+        caster.Heal(healAmount);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log($"{caster.unitName} casts {abilityName} on {target.unitName}");
     }
 }

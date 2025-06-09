@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd43c9b888c88b846babe754ad9fcb76, type: 3}
-  m_Name: DustGust
+  m_Script: {fileID: 11500000, guid: 1439cb32ce8a2fb498cd6c1d1169b024, type: 3}
+  m_Name: InjectPoison
   m_EditorClassIdentifier: 
-  abilityName: Dust Gust
+  abilityName: Inject Poison
   icon: {fileID: 0}
   canTarget: 1
-  strengthScaling: 0
-  powerScaling: 1
-  aggressionScaling: 0
-  preservationScaling: 0.5
-  canTargetFriendly: 1
+  strengthScaling: 0.3
+  powerScaling: 0
+  aggressionScaling: 0.5
+  preservationScaling: 0
+  canTargetFriendly: 0
   effectDuration: 2
