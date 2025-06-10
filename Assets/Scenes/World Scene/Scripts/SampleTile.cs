@@ -21,8 +21,6 @@ public class SampleTile : Tile
 
     public Vector2Int size = Vector2Int.one;
 
-
-    // TODO: Find a good lerp factor 
     private float lerpFactor = 0.75f;
 
     private bool _selected;
@@ -75,25 +73,6 @@ public class SampleTile : Tile
         {
             tileData.color = Color.Lerp(Color.cyan, tileData.color, lerpFactor);
         }
-
-/*
-        if (position == EntryPosition)
-        {
-            tileData.color = Color.green;
-        }
-        else if (position == ExitPosition)
-        {
-            tileData.color = Color.yellow;
-        }
-        else if(obstacles.Contains(position))
-        {
-            tileData.color = Color.red;
-        }
-        else if (_selected)
-        {
-            tileData.color = Color.black; //selectedColor;
-        }
-*/
     }
 
     public void SetSelect(bool selected)
@@ -112,7 +91,7 @@ public class SampleTile : Tile
         int y = pos.y % size.y;
         int index = x + (((size.y - 1) * size.x) - y * size.x);
 
-        return sprites[index]; // <-- fixed
+        return sprites[index];
     }
 
 #if UNITY_EDITOR

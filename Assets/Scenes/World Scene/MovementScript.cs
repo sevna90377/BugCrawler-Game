@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Assets.Scripts.Cubes;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -7,6 +9,7 @@ public class MovementScript : MonoBehaviour
     public float hexSize = 1f;
 
     private bool loaded = false;
+    private HexGrid _hexGrid;
 
     // Start is called before the first frame update
     void Start()
@@ -34,11 +37,23 @@ public class MovementScript : MonoBehaviour
     {
         Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         clickPos.z = 0;
+
         Vector3Int clickCell = tilemap.WorldToCell(clickPos);
+        Hex clickHex = Hex.QoffsetToCube(clickCell);
+
+        Vector3Int playerCell = tilemap.WorldToCell(transform.position);
+        Hex playerHex = Hex.QoffsetToCube(playerCell);
+
+        if (_hexGrid == null)
+        {
+            _hexGrid = new HexGrid(tilemap);
+        }
+
+        IList<Hex> reachable = playerHex.ReachableHexes(3, _hexGrid);
 
         if (tilemap.HasTile(clickCell))
         {
-            if (CheckAdjacency(clickCell))
+            if (reachable.Contains(clickHex) && playerHex.FindPath(clickHex, _hexGrid).Count <= 4 && !TilemapGenerate.obstacleList.Contains(clickCell))
             {
                 Move(clickCell);
             }
@@ -97,7 +112,7 @@ public class MovementScript : MonoBehaviour
      * that brings issues on diagonals, as x axis would change every 2 steps
      * that's why we have different adjacency definition on even and odd cells
      */
-    bool CheckAdjacency(Vector3Int targetCell)
+/*    bool CheckAdjacency(Vector3Int targetCell)
     {
         Vector3Int playerCell = tilemap.WorldToCell(transform.position);
 
@@ -111,7 +126,7 @@ public class MovementScript : MonoBehaviour
             }
         }
         return false;
-    }
+    }*/
     ///
 
     ///

@@ -23,6 +23,9 @@ public class TilemapGenerate : MonoBehaviour
     [Header("Points of Interest")]
     [SerializeField] private int chestDensity = 20; // lower = more chests
 
+
+    public static List<Vector3Int> obstacleList = new();
+
     private void Start()
     {
         if (tilemap == null)
@@ -59,7 +62,7 @@ public class TilemapGenerate : MonoBehaviour
             {
                 placedRooms.Add(newRoom);
 
-                // Mark core rectangular room
+                // Mark core room
                 List<Vector2Int> baseTiles = new();
                 for (int i = newRoom.xMin; i < newRoom.xMax; i++)
                 {
@@ -70,7 +73,7 @@ public class TilemapGenerate : MonoBehaviour
                     }
                 }
 
-                // Add extra glued-on tiles
+                // Add extra tiles
                 int placedExtras = 0;
                 Vector2Int[] directions = new Vector2Int[]
                 {
@@ -100,7 +103,6 @@ public class TilemapGenerate : MonoBehaviour
             attempts++;
         }
 
-        // Done placing rooms and adding extras
         ConnectRooms(placedRooms, roomMask);
 
         // Set entry/exit based on first/last room
@@ -139,6 +141,7 @@ public class TilemapGenerate : MonoBehaviour
 
                 if (!roomMask[x, y])
                 {
+                    obstacleList.Add(cell);
                     tile.obstacles.Add(cell);
                 }
 
@@ -185,18 +188,15 @@ public class TilemapGenerate : MonoBehaviour
                 if (current.y < to.y) possibleSteps.Add(Vector2Int.up);
                 if (current.y > to.y) possibleSteps.Add(Vector2Int.down);
 
-                // Shuffle directions slightly for fuzziness
                 for (int s = possibleSteps.Count - 1; s > 0; s--)
                 {
                     int j = rng.Next(s + 1);
                     (possibleSteps[s], possibleSteps[j]) = (possibleSteps[j], possibleSteps[s]);
                 }
 
-                // Take one of the possible steps
                 if (possibleSteps.Count > 0)
                     current += possibleSteps[0];
 
-                // Prevent out-of-bounds just in case
                 if (current.x >= 0 && current.x < roomMask.GetLength(0) &&
                     current.y >= 0 && current.y < roomMask.GetLength(1))
                 {
@@ -212,18 +212,16 @@ public class TilemapGenerate : MonoBehaviour
 
         List<Vector3Int> floorTiles = new();
 
-        // Clear static lists to avoid leftover data in play mode
         SampleTile.enemyCamps.Clear();
         SampleTile.chests.Clear();
 
-        // Gather all floor tiles
         for (int x = 0; x < mapWidth; x++)
         {
             for (int y = 0; y < mapHeight; y++)
             {
                 if (!roomMask[x, y]) continue;
 
-                var pos = new Vector3Int(y, x, 0); // YXZ: y is col, x is row
+                var pos = new Vector3Int(y, x, 0); 
                 if (pos == SampleTile.EntryPosition || pos == SampleTile.ExitPosition)
                     continue;
 
@@ -242,9 +240,8 @@ public class TilemapGenerate : MonoBehaviour
             {
                 for (int y = room.yMin; y < room.yMax; y++)
                 {
-                    var pos = new Vector3Int(y, x, 0);
+                    var pos = new Vector3Int(y, x, 0); // YXZ swap for Unity grid
 
-                    // Skip center tile of room
                     if (pos == SampleTile.EntryPosition || pos == SampleTile.ExitPosition)
                         continue;
 
