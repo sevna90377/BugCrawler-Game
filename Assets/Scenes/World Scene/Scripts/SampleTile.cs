@@ -54,7 +54,7 @@ public class SampleTile : Tile
         }
         else if (chests.Contains(position))
         {
-            tileData.color = Color.blue;
+            tileData.color = Color.cyan;
         }
         else if (_selected)
         {
