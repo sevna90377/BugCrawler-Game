@@ -23,7 +23,7 @@ public class SampleTile : Tile
 
 
     // TODO: Find a good lerp factor 
-    private float lerpFactor = 0.65f;
+    private float lerpFactor = 0.75f;
 
     private bool _selected;
 
@@ -33,6 +33,7 @@ public class SampleTile : Tile
     public static List<Vector3Int> enemyCamps = new();
     public static List<Vector3Int> visitedCamps = new();
     public static List<Vector3Int> chests = new();
+    public static List<Vector3Int> visitedChests = new();
 
 
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
@@ -43,7 +44,7 @@ public class SampleTile : Tile
 
         if (obstacles.Contains(position))
         {
-            tileData.color = Color.red;
+            tileData.color = new Color(0.3f, 0.3f, 0.3f, 1f);
         }
         else if (position == EntryPosition)
         {
@@ -55,15 +56,19 @@ public class SampleTile : Tile
         }
         else if (enemyCamps.Contains(position))
         {
-            tileData.color = Color.magenta;
+            tileData.color = Color.red;
         }
         else if (visitedCamps.Contains(position))
         {
-            tileData.color = Color.blue;
+            tileData.color = new Color(0.5803922f, 0f, 0.8274511f, 1f);
         }
         else if (chests.Contains(position))
         {
             tileData.color = Color.cyan;
+        }
+        else if (visitedChests.Contains(position))
+        {
+            tileData.color = Color.blue;
         }
          
         if (_selected && !obstacles.Contains(position))

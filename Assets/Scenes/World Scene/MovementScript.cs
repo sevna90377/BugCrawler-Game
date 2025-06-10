@@ -61,6 +61,15 @@ public class MovementScript : MonoBehaviour
 
             Debug.Log($"Visited enemy camp at {targetCell}");
         }
+        
+        if (SampleTile.chests.Contains(targetCell))
+        {
+            SampleTile.chests.Remove(targetCell);
+            SampleTile.visitedChests.Add(targetCell);
+            tilemap.RefreshTile(targetCell);
+
+            Debug.Log($"Visited chest at {targetCell}");
+        }
     }
 
 
