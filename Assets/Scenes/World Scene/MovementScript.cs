@@ -18,8 +18,11 @@ public class MovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!loaded) transform.position = tilemap.CellToWorld(SampleTile.EntryPosition);
-
+        if (!loaded)
+        {
+            transform.position = tilemap.CellToWorld(SampleTile.EntryPosition);
+            loaded = true;
+        }
         if (Input.GetMouseButtonDown(0))
         {
             HandleInput();
