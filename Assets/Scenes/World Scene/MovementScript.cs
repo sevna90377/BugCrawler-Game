@@ -6,6 +6,8 @@ public class MovementScript : MonoBehaviour
     public Tilemap tilemap;
     public float hexSize = 1f;
 
+    private bool loaded = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +18,8 @@ public class MovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!loaded) transform.position = tilemap.CellToWorld(SampleTile.EntryPosition);
+
         if (Input.GetMouseButtonDown(0))
         {
             HandleInput();

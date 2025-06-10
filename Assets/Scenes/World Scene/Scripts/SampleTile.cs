@@ -15,11 +15,13 @@ public class SampleTile : Tile
     /// </summary>
     public List<Vector3Int> obstacles = new();
 
-    public Color selectedColor = Color.gray;
+    public Color selectedColor = new Color(0.9411765f, 0.9725491f, 1f, 1f);
 
     public Sprite[] sprites;
 
     public Vector2Int size = Vector2Int.one;
+
+    public float lerpFactor = 0.2f;
 
     private bool _selected;
 
@@ -56,9 +58,11 @@ public class SampleTile : Tile
         {
             tileData.color = Color.cyan;
         }
-        else if (_selected)
+         
+        if (_selected)
         {
-            tileData.color = Color.black;
+            //tileData.color = Color.Lerp(selectedColor, tileData.color, 0.1f);
+             tileData.color = selectedColor;
         }
 
 /*
