@@ -27,10 +27,7 @@ public class MovementScript : MonoBehaviour
         {
             HandleInput();
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SwitchMap();
-        }
+        
     }
 
     void HandleInput()
@@ -55,6 +52,15 @@ public class MovementScript : MonoBehaviour
     void Move(Vector3Int targetCell)
     {
         transform.position = tilemap.GetCellCenterWorld(targetCell);
+
+        if (SampleTile.enemyCamps.Contains(targetCell))
+        {
+            SampleTile.enemyCamps.Remove(targetCell);
+            SampleTile.visitedCamps.Add(targetCell);
+            tilemap.RefreshTile(targetCell);
+
+            Debug.Log($"Visited enemy camp at {targetCell}");
+        }
     }
 
 
@@ -78,7 +84,7 @@ public class MovementScript : MonoBehaviour
         new Vector3Int(0, 1, 0)   // S-East
     };
     /*
-     * unity has (x,y) hexagonal coordinates where x values grow to the right, and y values grow upwards
+     * unity has (x,y) (written as (y,x,z)) hexagonal coordinates where x values grow to the right, and y values grow upwards
      * that brings issues on diagonals, as x axis would change every 2 steps
      * that's why we have different adjacency definition on even and odd cells
      */
@@ -102,21 +108,21 @@ public class MovementScript : MonoBehaviour
     ///
     /// MAP SWITCHING GENERAL LOGIC
     ///
-    public GameObject[] tilemapPrefabs;
-    public GameObject currentMap;
-    int map = 0;
+    // public GameObject[] tilemapPrefabs;
+    // public GameObject currentMap;
+    // int map = 0;
     /*
      * just store the prefabs in an array and randomize
      * could be used for map generation by offsets and matching prefabs for different directions
      * since the prefab is whole grid, multiple tilemap layers can be used for map objects
      */
-    void SwitchMap()
+ /*   void SwitchMap()
     {
         if (currentMap != null)
             Destroy(currentMap);
         currentMap = Instantiate(tilemapPrefabs[map], Vector3.zero, Quaternion.identity);
         tilemap = currentMap.GetComponentInChildren<Tilemap>();
         map = (map + 1) % (tilemapPrefabs.Length);
-    }
+    }*/
     ///
 }

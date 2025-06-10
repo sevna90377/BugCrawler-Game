@@ -15,13 +15,15 @@ public class SampleTile : Tile
     /// </summary>
     public List<Vector3Int> obstacles = new();
 
-    public Color selectedColor = new Color(0.9411765f, 0.9725491f, 1f, 1f);
+    public Color selectedColor = Color.gray;
 
     public Sprite[] sprites;
 
     public Vector2Int size = Vector2Int.one;
 
-    public float lerpFactor = 0.2f;
+
+    // TODO: Find a good lerp factor 
+    private float lerpFactor = 0.65f;
 
     private bool _selected;
 
@@ -29,6 +31,7 @@ public class SampleTile : Tile
     public static Vector3Int ExitPosition = new(-999, -999, 0);
 
     public static List<Vector3Int> enemyCamps = new();
+    public static List<Vector3Int> visitedCamps = new();
     public static List<Vector3Int> chests = new();
 
 
@@ -54,15 +57,18 @@ public class SampleTile : Tile
         {
             tileData.color = Color.magenta;
         }
+        else if (visitedCamps.Contains(position))
+        {
+            tileData.color = Color.blue;
+        }
         else if (chests.Contains(position))
         {
             tileData.color = Color.cyan;
         }
          
-        if (_selected)
+        if (_selected && !obstacles.Contains(position))
         {
-            //tileData.color = Color.Lerp(selectedColor, tileData.color, 0.1f);
-             tileData.color = selectedColor;
+            tileData.color = Color.Lerp(Color.cyan, tileData.color, lerpFactor);
         }
 
 /*
