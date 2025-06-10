@@ -23,6 +23,12 @@ public class SampleTile : Tile
 
     private bool _selected;
 
+    public static Vector3Int EntryPosition = new(-999, -999, 0);
+    public static Vector3Int ExitPosition = new(-999, -999, 0);
+
+    public static List<Vector3Int> enemyCamps = new();
+    public static List<Vector3Int> chests = new();
+
 
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
     {
@@ -34,10 +40,45 @@ public class SampleTile : Tile
         {
             tileData.color = Color.red;
         }
+        else if (position == EntryPosition)
+        {
+            tileData.color = Color.green;
+        }
+        else if (position == ExitPosition)
+        {
+            tileData.color = Color.yellow;
+        }
+        else if (enemyCamps.Contains(position))
+        {
+            tileData.color = Color.magenta;
+        }
+        else if (chests.Contains(position))
+        {
+            tileData.color = Color.blue;
+        }
+        else if (_selected)
+        {
+            tileData.color = Color.black;
+        }
+
+/*
+        if (position == EntryPosition)
+        {
+            tileData.color = Color.green;
+        }
+        else if (position == ExitPosition)
+        {
+            tileData.color = Color.yellow;
+        }
+        else if(obstacles.Contains(position))
+        {
+            tileData.color = Color.red;
+        }
         else if (_selected)
         {
             tileData.color = Color.black; //selectedColor;
         }
+*/
     }
 
     public void SetSelect(bool selected)

@@ -262,6 +262,8 @@ MonoBehaviour:
   roomCount: 3
   roomSize: {x: 7, y: 5}
   extraTilesPerRoom: 6
+  entryRoomRange: {x: 0, y: 0}
+  exitRoomRange: {x: 0, y: 0}
 --- !u!4 &900729780
 Transform:
   m_ObjectHideFlags: 0
