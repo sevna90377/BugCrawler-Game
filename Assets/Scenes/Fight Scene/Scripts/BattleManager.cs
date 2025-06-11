@@ -151,6 +151,12 @@ public class BattleManager : MonoBehaviour
     {
         List<Unit> potentialTargets = new List<Unit>();
 
+        if (ability.canTarget == Ability.CanTarget.Self)
+        {
+            potentialTargets.Add(caster);
+            return potentialTargets;
+        }
+
         bool targetsFriendly = ability.canTargetFriendly;
         bool isMultiTarget = IsMultiTargetAbility(ability);
 

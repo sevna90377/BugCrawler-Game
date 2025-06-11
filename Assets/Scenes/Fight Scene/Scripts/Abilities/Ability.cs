@@ -18,6 +18,7 @@ public abstract class Ability : ScriptableObject
 
     public enum CanTarget
     {
+        Self,
         AnySingle,
         FrontlaneSingle,
         FrontlaneBoth,

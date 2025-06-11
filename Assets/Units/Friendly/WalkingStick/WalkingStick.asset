@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85854190c9f2877489fb9bed7fedea3d, type: 3}
-  m_Name: AntWarrior
+  m_Name: WalkingStick
   m_EditorClassIdentifier: 
-  unitName: Ant Warrior
-  tissue: 20
-  speed: 5
-  strength: 4
-  power: 2
-  aggression: 2
-  preservation: 5
+  unitName: Walking Stick
+  tissue: 12
+  speed: 4
+  strength: 2
+  power: 6
+  aggression: 1
+  preservation: 3
   isFriendly: 1
-  isFrontlane: 1
-  isBacklane: 0
+  isFrontlane: 0
+  isBacklane: 1
   unitSprite: {fileID: 21300000, guid: cb7898e5a2178ba41b7c075eccc352a4, type: 3}
   abilities:
-  - {fileID: 11400000, guid: e093436c322feef47a87835698fad7e4, type: 2}
-  - {fileID: 11400000, guid: 4dca93103c3256643971dc3d6f387382, type: 2}
-  - {fileID: 11400000, guid: dc34550f652610645a39db9df89179d8, type: 2}
-  - {fileID: 11400000, guid: ddb948e46d4a19f43a1b7bd0f2981cd7, type: 2}
+  - {fileID: 11400000, guid: ea7cb511e230d264f9c137e42354a597, type: 2}
+  - {fileID: 11400000, guid: 6e174b25c1d33044286efc2398bc8c56, type: 2}
+  - {fileID: 11400000, guid: fda25e2570a446f459cd50b45eccc516, type: 2}
+  - {fileID: 11400000, guid: 2ec2b6374ef27f64a96c9e5748b28a76, type: 2}
