@@ -20,6 +20,12 @@ public class TilemapGenerate : MonoBehaviour
     [Header("Room Extras")]
     [SerializeField] private int extraTilesPerRoom = 3;
 
+    [Header("Points of Interest")]
+    [SerializeField] private int chestDensity = 20; // lower = more chests
+
+
+    public static List<Vector3Int> obstacleList = new();
+
     private void Start()
     {
         if (tilemap == null)
@@ -56,7 +62,7 @@ public class TilemapGenerate : MonoBehaviour
             {
                 placedRooms.Add(newRoom);
 
-                // Mark core rectangular room
+                // Mark core room
                 List<Vector2Int> baseTiles = new();
                 for (int i = newRoom.xMin; i < newRoom.xMax; i++)
                 {
@@ -67,7 +73,7 @@ public class TilemapGenerate : MonoBehaviour
                     }
                 }
 
-                // Add extra glued-on tiles
+                // Add extra tiles
                 int placedExtras = 0;
                 Vector2Int[] directions = new Vector2Int[]
                 {
@@ -97,8 +103,29 @@ public class TilemapGenerate : MonoBehaviour
             attempts++;
         }
 
-        // Done placing rooms and adding extras
         ConnectRooms(placedRooms, roomMask);
+
+        // Set entry/exit based on first/last room
+        if (placedRooms.Count > 0)
+        {
+            RectInt firstRoom = placedRooms[0];
+            RectInt lastRoom = placedRooms[placedRooms.Count - 1];
+
+            SampleTile.EntryPosition = new Vector3Int(
+                firstRoom.yMin + firstRoom.height / 2,
+                firstRoom.xMin + firstRoom.width / 2,
+                0
+            );
+
+            SampleTile.ExitPosition = new Vector3Int(
+                lastRoom.yMin + lastRoom.height / 2,
+                lastRoom.xMin + lastRoom.width / 2,
+                0
+            );
+
+            Debug.Log($"Set entry at {SampleTile.EntryPosition}, exit at {SampleTile.ExitPosition}");
+        }
+
 
         // Paint tiles
         for (int x = 0; x < mapWidth; x++)
@@ -114,12 +141,16 @@ public class TilemapGenerate : MonoBehaviour
 
                 if (!roomMask[x, y])
                 {
+                    obstacleList.Add(cell);
                     tile.obstacles.Add(cell);
                 }
 
                 tilemap.SetTile(cell, tile);
             }
         }
+
+        PlacePointsOfInterest(placedRooms, roomMask);
+
 
         Debug.Log($"Generated {placedRooms.Count} rooms (with extras) on a {mapWidth}x{mapHeight} grid using SampleTile.");
     }
@@ -136,27 +167,121 @@ public class TilemapGenerate : MonoBehaviour
             centers.Add(center);
         }
 
+        var rng = new System.Random();
+
         for (int i = 0; i < centers.Count - 1; i++)
         {
             Vector2Int from = centers[i];
             Vector2Int to = centers[i + 1];
 
-            // Connect horizontally first, then vertically
             Vector2Int current = from;
 
-            while (current.x != to.x)
-            {
-                roomMask[current.x, current.y] = true;
-                current.x += (to.x > current.x) ? 1 : -1;
-            }
+            // Randomized fuzzy shortest path using shuffled direction steps
+            List<Vector2Int> path = new();
 
-            while (current.y != to.y)
+            while (current != to)
             {
-                roomMask[current.x, current.y] = true;
-                current.y += (to.y > current.y) ? 1 : -1;
+                List<Vector2Int> possibleSteps = new();
+
+                if (current.x < to.x) possibleSteps.Add(Vector2Int.right);
+                if (current.x > to.x) possibleSteps.Add(Vector2Int.left);
+                if (current.y < to.y) possibleSteps.Add(Vector2Int.up);
+                if (current.y > to.y) possibleSteps.Add(Vector2Int.down);
+
+                for (int s = possibleSteps.Count - 1; s > 0; s--)
+                {
+                    int j = rng.Next(s + 1);
+                    (possibleSteps[s], possibleSteps[j]) = (possibleSteps[j], possibleSteps[s]);
+                }
+
+                if (possibleSteps.Count > 0)
+                    current += possibleSteps[0];
+
+                if (current.x >= 0 && current.x < roomMask.GetLength(0) &&
+                    current.y >= 0 && current.y < roomMask.GetLength(1))
+                {
+                    roomMask[current.x, current.y] = true;
+                }
             }
         }
     }
+
+    private void PlacePointsOfInterest(List<RectInt> rooms, bool[,] roomMask)
+    {
+        var rng = new System.Random();
+
+        List<Vector3Int> floorTiles = new();
+
+        SampleTile.enemyCamps.Clear();
+        SampleTile.chests.Clear();
+
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                if (!roomMask[x, y]) continue;
+
+                var pos = new Vector3Int(y, x, 0); 
+                if (pos == SampleTile.EntryPosition || pos == SampleTile.ExitPosition)
+                    continue;
+
+                floorTiles.Add(pos);
+            }
+        }
+
+        HashSet<Vector3Int> used = new();
+
+        // Place enemy camps: 1 per room, avoid center
+        foreach (var room in rooms)
+        {
+            List<Vector3Int> roomFloor = new();
+
+            for (int x = room.xMin; x < room.xMax; x++)
+            {
+                for (int y = room.yMin; y < room.yMax; y++)
+                {
+                    var pos = new Vector3Int(y, x, 0); // YXZ swap for Unity grid
+
+                    if (pos == SampleTile.EntryPosition || pos == SampleTile.ExitPosition)
+                        continue;
+
+                    if (tilemap.HasTile(pos))
+                        roomFloor.Add(pos);
+                }
+            }
+
+            if (roomFloor.Count > 0)
+            {
+                var chosen = roomFloor[rng.Next(roomFloor.Count)];
+
+                SampleTile.enemyCamps.Add(chosen);
+                tilemap.RefreshTile(chosen);
+                used.Add(chosen);
+            }
+        }
+
+
+        // Place chests: floorTiles.Count / chestDensity
+        int chestCount = Mathf.FloorToInt(floorTiles.Count / (float)Mathf.Max(1, chestDensity));
+        floorTiles.Shuffle();
+
+        int placed = 0;
+        foreach (var pos in floorTiles)
+        {
+            if (used.Contains(pos)) continue;
+
+            SampleTile.chests.Add(pos);
+            tilemap.RefreshTile(pos);
+            used.Add(pos);
+            placed++;
+
+            if (placed >= chestCount) break;
+        }
+
+        Debug.Log($"Placed {SampleTile.enemyCamps.Count} enemy camps and {placed} chests.");
+    }
+
+
 
 
 }

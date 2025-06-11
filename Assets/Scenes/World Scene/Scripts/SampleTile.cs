@@ -21,7 +21,17 @@ public class SampleTile : Tile
 
     public Vector2Int size = Vector2Int.one;
 
+    private float lerpFactor = 0.75f;
+
     private bool _selected;
+
+    public static Vector3Int EntryPosition = new(-999, -999, 0);
+    public static Vector3Int ExitPosition = new(-999, -999, 0);
+
+    public static List<Vector3Int> enemyCamps = new();
+    public static List<Vector3Int> visitedCamps = new();
+    public static List<Vector3Int> chests = new();
+    public static List<Vector3Int> visitedChests = new();
 
 
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
@@ -32,11 +42,36 @@ public class SampleTile : Tile
 
         if (obstacles.Contains(position))
         {
+            tileData.color = new Color(0.3f, 0.3f, 0.3f, 1f);
+        }
+        else if (position == EntryPosition)
+        {
+            tileData.color = Color.green;
+        }
+        else if (position == ExitPosition)
+        {
+            tileData.color = Color.yellow;
+        }
+        else if (enemyCamps.Contains(position))
+        {
             tileData.color = Color.red;
         }
-        else if (_selected)
+        else if (visitedCamps.Contains(position))
         {
-            tileData.color = Color.black; //selectedColor;
+            tileData.color = new Color(0.5803922f, 0f, 0.8274511f, 1f);
+        }
+        else if (chests.Contains(position))
+        {
+            tileData.color = Color.cyan;
+        }
+        else if (visitedChests.Contains(position))
+        {
+            tileData.color = Color.blue;
+        }
+         
+        if (_selected && !obstacles.Contains(position))
+        {
+            tileData.color = Color.Lerp(Color.cyan, tileData.color, lerpFactor);
         }
     }
 
@@ -56,7 +91,7 @@ public class SampleTile : Tile
         int y = pos.y % size.y;
         int index = x + (((size.y - 1) * size.x) - y * size.x);
 
-        return sprites[index]; // <-- fixed
+        return sprites[index];
     }
 
 #if UNITY_EDITOR

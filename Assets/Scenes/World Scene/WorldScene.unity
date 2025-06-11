@@ -259,9 +259,10 @@ MonoBehaviour:
   mapHeight: 25
   tilemap: {fileID: 1295131221}
   sampleTilePrefab: {fileID: 11400000, guid: c9b6a4216ea93064881bbd5ff3e12b2c, type: 2}
-  roomCount: 3
+  roomCount: 12
   roomSize: {x: 7, y: 5}
   extraTilesPerRoom: 6
+  chestDensity: 25
 --- !u!4 &900729780
 Transform:
   m_ObjectHideFlags: 0
