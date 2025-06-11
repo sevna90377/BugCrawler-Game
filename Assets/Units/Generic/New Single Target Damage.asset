@@ -14,5 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: SingleAttack
   icon: {fileID: 0}
+  canTarget: 0
+  strengthScaling: 0
+  powerScaling: 0
+  aggressionScaling: 0
+  preservationScaling: 0
   canTargetFriendly: 0
   damageAmount: 5

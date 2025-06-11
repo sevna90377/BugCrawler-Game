@@ -1,47 +1,59 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class BattleSetup : MonoBehaviour
 {
-    public GameObject unitPrefab;
-
-    public Transform[] friendlySpawns;
-    public Transform[] enemySpawns;
-
-    public UnitData[] friendlyUnitData;
-    public UnitData[] enemyUnitData;
+    public Transform[] friendlyFrontSpawns;
+    public Transform[] friendlyBackSpawns;
+    public Transform[] enemyFrontSpawns;
+    public Transform[] enemyBackSpawns;
 
     public BattleManager battleManager;
+    public Unit unitPrefab;
+
+    public List<UnitData> friendlyFrontlane;
+    public List<UnitData> friendlyBacklane;
+    public List<UnitData> enemyFrontlane;
+    public List<UnitData> enemyBacklane;
 
     void Start()
     {
-        SpawnUnits();
-        Debug.Log("Spawning units...");
+        List<Unit> spawnedFriendlies = new List<Unit>();
+        List<Unit> spawnedEnemies = new List<Unit>();
+
+        // Spawn friendlies
+        spawnedFriendlies.AddRange(SpawnUnits(friendlyFrontlane, friendlyFrontSpawns));
+        spawnedFriendlies.AddRange(SpawnUnits(friendlyBacklane, friendlyBackSpawns));
+
+        // Spawn enemies
+        spawnedEnemies.AddRange(SpawnUnits(enemyFrontlane, enemyFrontSpawns));
+        spawnedEnemies.AddRange(SpawnUnits(enemyBacklane, enemyBackSpawns));
+
+        battleManager.InitializeBattle(spawnedFriendlies, spawnedEnemies);
+
+        Debug.Log("Battle initialized with lanes.");
     }
 
-    void SpawnUnits()
+    List<Unit> SpawnUnits(List<UnitData> unitsData, Transform[] spawnPoints)
     {
-        battleManager.friendlyUnits = new List<Unit>();
-        battleManager.enemyUnits = new List<Unit>();
+        List<Unit> spawnedUnits = new List<Unit>();
 
-        // Friendly
-        for (int i = 0; i < friendlySpawns.Length; i++)
+        for (int i = 0; i < unitsData.Count && i < spawnPoints.Length; i++)
         {
-            var unitGO = Instantiate(unitPrefab, friendlySpawns[i].position, Quaternion.identity);
+            var unitGO = Instantiate(unitPrefab.gameObject, spawnPoints[i].position, Quaternion.identity);
+            unitGO.name = unitsData[i].unitName;
             var unit = unitGO.GetComponent<Unit>();
-            unit.Init(friendlyUnitData[i], true);
 
-            battleManager.friendlyUnits.Add(unit);
+            unit.Init(unitsData[i]);
+
+            if (unitsData[i].unitSprite != null)
+            {
+                unit.GetComponent<SpriteRenderer>().sprite = unitsData[i].unitSprite;
+            }
+
+            spawnedUnits.Add(unit);
         }
 
-        // Enemy
-        for (int i = 0; i < enemySpawns.Length; i++)
-        {
-            var unitGO = Instantiate(unitPrefab, enemySpawns[i].position, Quaternion.identity);
-            var unit = unitGO.GetComponent<Unit>();
-            unit.Init(enemyUnitData[i], false);
-
-            battleManager.enemyUnits.Add(unit);
-        }
+        return spawnedUnits;
     }
 }
