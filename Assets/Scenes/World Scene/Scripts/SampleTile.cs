@@ -1,42 +1,62 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
+[CreateAssetMenu(menuName = "2D/Custom Tiles/Variable Tile")]
 public class SampleTile : Tile
 {
+    /// <summary>
+    /// If true - Tile is an obstacle impossible to pass.
+    /// </summary>
+    public List<Vector3Int> obstacles = new();
+
+    public Color selectedColor = Color.gray;
+
+    public Sprite[] sprites;
+
+    public Vector2Int size = Vector2Int.one;
+
+    private bool _selected;
+
+
     public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
     {
+        base.GetTileData(position, tilemap, ref tileData);
+
         tileData.sprite = GetSprite(position);
+
+        if (obstacles.Contains(position))
+        {
+            tileData.color = Color.red;
+        }
+        else if (_selected)
+        {
+            tileData.color = Color.black; //selectedColor;
+        }
     }
 
-    public override void RefreshTile(Vector3Int position, ITilemap tilemap)
+    public void SetSelect(bool selected)
     {
-        base.RefreshTile(position, tilemap);
+        _selected = selected;
     }
-
-    [Header("Tile block")]
-    public Vector2Int m_size = Vector2Int.one;
-    public Sprite[] m_Sprites;
 
     public Sprite GetSprite(Vector3Int pos)
     {
-        if (m_Sprites.Length != m_size.x * m_size.y) return sprite;
+        if (sprites.Length != size.x * size.y) return sprite;
 
-        while (pos.x < m_size.x) { pos.x += m_size.x; }
-        while (pos.y < m_size.y) { pos.y += m_size.y; }
+        while (pos.x < 0) { pos.x += size.x; }
+        while (pos.y < 0) { pos.y += size.y; }
 
-        int x = pos.x;
-        int y = pos.y;
+        int x = pos.x % size.x;
+        int y = pos.y % size.y;
+        int index = x + (((size.y - 1) * size.x) - y * size.x);
 
-        int index = x + (((m_size.y - 1) * m_size.x) - y * m_size.x);
-
-        return m_Sprites[0];
+        return sprites[index]; // <-- fixed
     }
 
 #if UNITY_EDITOR

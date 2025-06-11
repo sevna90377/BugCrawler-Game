@@ -3,16 +3,14 @@ using UnityEngine.Tilemaps;
 
 public class MovementScript : MonoBehaviour
 {
-
-    Tilemap walkable;
+    public Tilemap tilemap;
     public float hexSize = 1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        SwitchMap();
-        walkable = currentMap.transform.Find("Walkable").GetComponent<Tilemap>();
-        transform.position = walkable.CellToWorld(new Vector3Int(0,0,0));
+        //SwitchMap();
+        transform.position = tilemap.CellToWorld(new Vector3Int(0,0,0));
     }
 
     // Update is called once per frame
@@ -32,9 +30,9 @@ public class MovementScript : MonoBehaviour
     {
         Vector3 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         clickPos.z = 0;
-        Vector3Int clickCell = walkable.WorldToCell(clickPos);
+        Vector3Int clickCell = tilemap.WorldToCell(clickPos);
 
-        if (walkable.HasTile(clickCell))
+        if (tilemap.HasTile(clickCell))
         {
             if (CheckAdjacency(clickCell))
             {
@@ -49,7 +47,7 @@ public class MovementScript : MonoBehaviour
 
     void Move(Vector3Int targetCell)
     {
-        transform.position = walkable.GetCellCenterWorld(targetCell);
+        transform.position = tilemap.GetCellCenterWorld(targetCell);
     }
 
 
@@ -79,7 +77,7 @@ public class MovementScript : MonoBehaviour
      */
     bool CheckAdjacency(Vector3Int targetCell)
     {
-        Vector3Int playerCell = walkable.WorldToCell(transform.position);
+        Vector3Int playerCell = tilemap.WorldToCell(transform.position);
 
         foreach (Vector3Int direction in (playerCell.y % 2 == 0 ? adjacent_even : adjacent_odd))
         {
@@ -97,7 +95,7 @@ public class MovementScript : MonoBehaviour
     ///
     /// MAP SWITCHING GENERAL LOGIC
     ///
-    public GameObject[] maps;
+    public GameObject[] tilemapPrefabs;
     public GameObject currentMap;
     int map = 0;
     /*
@@ -109,9 +107,9 @@ public class MovementScript : MonoBehaviour
     {
         if (currentMap != null)
             Destroy(currentMap);
-        currentMap = Instantiate(maps[map], Vector3.zero, Quaternion.identity);
-        walkable = currentMap.GetComponentInChildren<Tilemap>();
-        map = (map + 1) % (maps.Length);
+        currentMap = Instantiate(tilemapPrefabs[map], Vector3.zero, Quaternion.identity);
+        tilemap = currentMap.GetComponentInChildren<Tilemap>();
+        map = (map + 1) % (tilemapPrefabs.Length);
     }
     ///
 }

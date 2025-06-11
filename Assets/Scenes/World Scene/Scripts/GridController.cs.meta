@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 83f612208bca4a140bce0e1a8326b542
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - highlightTile: {instanceID: 0}
+  - interactiveMap: {instanceID: 0}
+  - objectToPosition: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
