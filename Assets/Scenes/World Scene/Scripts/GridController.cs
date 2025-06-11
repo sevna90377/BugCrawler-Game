@@ -101,7 +101,7 @@ public class GridController : MonoBehaviour
             //_startHex = null;
 
             // FindPath
-            //interactiveMap.SelectCubes(_startHex.FindPath(Hex.QoffsetToCube(mousePosition), _hexGrid));
+            // interactiveMap.SelectCubes(_startHex.FindPath(Hex.QoffsetToCube(mousePosition), _hexGrid));
         }
     }
 
