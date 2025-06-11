@@ -1410,17 +1410,17 @@ MonoBehaviour:
   battleManager: {fileID: 1879732957}
   unitPrefab: {fileID: -2565430048128121818, guid: ec6d66c5612e58f4297e16ed32fe9b29, type: 3}
   friendlyFrontlane:
-  - {fileID: 11400000, guid: 38c9977a47a486345a58a2d3bf396f8b, type: 2}
-  - {fileID: 11400000, guid: 38c9977a47a486345a58a2d3bf396f8b, type: 2}
+  - {fileID: 11400000, guid: db33be16560448a48aa2f71d810e1f57, type: 2}
+  - {fileID: 11400000, guid: db33be16560448a48aa2f71d810e1f57, type: 2}
   friendlyBacklane:
   - {fileID: 11400000, guid: 64ea4c436506e7d4483d0820afd681c2, type: 2}
-  - {fileID: 11400000, guid: 64ea4c436506e7d4483d0820afd681c2, type: 2}
+  - {fileID: 11400000, guid: b3b1dc17cbb01a44a98db5e195962048, type: 2}
   enemyFrontlane:
-  - {fileID: 11400000, guid: bf22aa0d9280cbd4882b999b98ea491f, type: 2}
-  - {fileID: 11400000, guid: bf22aa0d9280cbd4882b999b98ea491f, type: 2}
+  - {fileID: 11400000, guid: 9c935424262d4b449b41f9ac96649fd7, type: 2}
+  - {fileID: 11400000, guid: 9c935424262d4b449b41f9ac96649fd7, type: 2}
   enemyBacklane:
-  - {fileID: 11400000, guid: 3b60edc1344061c4d994f4e627ba1bf3, type: 2}
-  - {fileID: 11400000, guid: 3b60edc1344061c4d994f4e627ba1bf3, type: 2}
+  - {fileID: 11400000, guid: 277c9ca2112fe70419415a677bb7a508, type: 2}
+  - {fileID: 11400000, guid: 277c9ca2112fe70419415a677bb7a508, type: 2}
 --- !u!4 &1336157866
 Transform:
   m_ObjectHideFlags: 0

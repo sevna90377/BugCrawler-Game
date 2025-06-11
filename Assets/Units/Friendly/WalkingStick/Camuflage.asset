@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd43c9b888c88b846babe754ad9fcb76, type: 3}
-  m_Name: DustGust
+  m_Script: {fileID: 11500000, guid: e11d2c7c0ebcc164ab883f771adcf9b7, type: 3}
+  m_Name: Camuflage
   m_EditorClassIdentifier: 
-  abilityName: Dust Gust
+  abilityName: Camuflage
   icon: {fileID: 0}
-  canTarget: 1
+  canTarget: 0
   strengthScaling: 0
-  powerScaling: 1
+  powerScaling: 0
   aggressionScaling: 0
-  preservationScaling: 0.5
+  preservationScaling: 0.3
   canTargetFriendly: 1
-  effectDuration: 2
+  effectDuration: 3
